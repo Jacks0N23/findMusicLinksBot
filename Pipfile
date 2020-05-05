@@ -7,7 +7,7 @@ verify_ssl = true
 bot = "python main.py"
 
 [dev-packages]
-pep8 = "==1.7.1"
+black = "*"
 
 [packages]
 python-dotenv = "*"
@@ -22,3 +22,6 @@ yandex-music = "==0.1.2"
 
 [requires]
 python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

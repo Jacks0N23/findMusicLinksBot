@@ -1,5 +1,8 @@
 import os
 
+HOST = "0.0.0.0"
+PORT = os.environ.get('PORT', 8443)
+
 token = os.getenv('MUSIC_BOT_TOKEN')
 
 heroku_webhook = "https://find-music-links.herokuapp.com/bot"
