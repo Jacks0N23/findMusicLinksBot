@@ -27,7 +27,11 @@ def handle_intent(message):
 
 def process_command(message):
     music_url = message.text
-    another_link = "cannot identify music provider or you send album(it's not supported now), only tracks"
+    another_link = """I don't understand this. I only support the following services (song links only for now):
+    - Spotify
+    - Я.Музыка (Yandex Music)
+    """
+
     try:
         if ya_music.is_ya_music(music_url):
             full_name = ya_music.get_full_track_name(music_url)
