@@ -6,9 +6,11 @@ import spotipy
 import json
 from spotipy.oauth2 import SpotifyClientCredentials
 
-cid = os.getenv('SPOTIPY_CLIENT_ID')
-secret = os.getenv('SPOTIPY_CLIENT_SECRET')
-client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+cid = os.getenv("SPOTIPY_CLIENT_ID")
+secret = os.getenv("SPOTIPY_CLIENT_SECRET")
+client_credentials_manager = SpotifyClientCredentials(
+    client_id=cid, client_secret=secret
+)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
@@ -45,10 +47,11 @@ def is_spotify(sp_url):
 
 def find_link(full_name):
     search = sp.search(full_name, 1)
-    link = search['tracks']['items'][0]['external_urls']['spotify']
+    link = search["tracks"]["items"][0]["external_urls"]["spotify"]
     print(json.dumps(search, sort_keys=True, indent=4))
     print(link)
     return link
+
 
 # parse_track_id("https://open.spotify.com/track/5hAtL8xsBjKAaxkWJAit4L")
 # find_link("Marselle - На букву М")
