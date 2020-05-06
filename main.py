@@ -2,7 +2,7 @@ import os
 import telebot
 from flask import Flask, request
 
-from config import token, heroku_webhook, welcome_message, HOST, PORT
+from config import token, heroku_webhook, default_messages, HOST, PORT
 import spotify
 import ya_music
 
@@ -16,7 +16,7 @@ sessionContext = {}
 
 @bot.message_handler(commands=["start"])
 def handle_start(message):
-    bot.send_message(message.from_user.id, welcome_message)
+    bot.send_message(message.from_user.id, default_messages["welcome"])
 
 
 @bot.message_handler(content_types=["text"])
@@ -27,10 +27,7 @@ def handle_intent(message):
 
 def process_command(message):
     music_url = message.text
-    another_link = """I don't understand this. I only support the following services (song links only for now):
-    - Spotify
-    - Я.Музыка (Yandex Music)
-    """
+    another_link = default_messages["unknown_link"]
 
     try:
         if ya_music.is_ya_music(music_url):

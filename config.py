@@ -7,8 +7,13 @@ token = os.getenv("MUSIC_BOT_TOKEN")
 
 heroku_webhook = "https://find-music-links.herokuapp.com/bot"
 
-welcome_message = (
-    "Hello!\n"
-    "I can help you share music with your friends using various streaming platforms 🎶.\n"
-    "Send me a link to Spotify or Yandex Music and I'll send you links to other platforms that have the same song available."
-)
+default_messages = {
+    "welcome": """Hello!
+    I can help you share music with your friends using various streaming platforms 🎶.
+    Send me a link to Spotify or Yandex Music and I'll send you links to other platforms that have the same song available.
+    """,
+    "unknown_link": """I don't understand this. I only support the following services (song links only for now):
+    - Spotify
+    - Я.Музыка (Yandex Music)
+    """,
+}
