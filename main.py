@@ -5,6 +5,8 @@ from flask import Flask, request
 from config import token, heroku_webhook, default_messages, HOST, PORT
 import spotify
 import ya_music
+import youtube
+from service import ServiceBuilder
 
 bot = telebot.TeleBot(token)
 bot.stop_polling()
@@ -27,19 +29,18 @@ def handle_intent(message):
 
 def process_command(message):
     music_url = message.text
-    another_link = default_messages["unknown_link"]
+    unknown_link = default_messages["unknown_link"]
+    links = []
 
     try:
-        if ya_music.is_ya_music(music_url):
-            full_name = ya_music.get_full_track_name(music_url)
-            another_link = spotify.find_link(full_name)
-        elif spotify.is_spotify(music_url):
-            full_name = spotify.get_full_track_name(music_url)
-            another_link = ya_music.find_link(full_name)
+        links = ServiceBuilder(music_url).build_links()
     except Exception as e:
         print(f"error was here {music_url}\nException is {e}")
     finally:
-        bot.send_message(message.from_user.id, another_link)
+        if len(links):
+            bot.send_message(message.from_user.id, "\n".join(links))
+        else:
+            bot.send_message(message.from_user.id, unknown_link)
 
 
 @server.route("/bot", methods=["POST"])

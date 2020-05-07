@@ -48,8 +48,8 @@ def find_link(full_name):
     search = client.search(full_name, playlist_in_best=False)
     best_track_id = search.best.result.track_id.split(":")
     link = f"https://music.yandex.ru/album/{best_track_id[1]}/track/{best_track_id[0]}"
-    print(json.dumps(search.to_dict(), indent=4))
-    print(link)
+    # print(json.dumps(search.to_dict(), indent=4))
+    # print(link)
     return link
 
 
