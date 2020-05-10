@@ -59,7 +59,7 @@ class ServiceBuilder:
 
     @staticmethod
     def __is_youtube(parsed_url):
-        return __is_short_youtube_url(parsed_url) or __is_full_youtube_url(parsed_url)
+        return ServiceBuilder.__is_short_youtube_url(parsed_url) or ServiceBuilder.__is_full_youtube_url(parsed_url)
 
     @staticmethod
     def __is_full_youtube_url(parsed_url):
