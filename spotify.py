@@ -48,7 +48,7 @@ def is_spotify(sp_url):
 def find_link(full_name):
     search = sp.search(full_name, 1)
     link = search["tracks"]["items"][0]["external_urls"]["spotify"]
-    print(json.dumps(search, sort_keys=True, indent=4))
+    # print(json.dumps(search, sort_keys=True, indent=4))
     print(link)
     return link
 

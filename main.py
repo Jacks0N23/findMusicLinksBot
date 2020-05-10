@@ -2,10 +2,8 @@ import os
 import telebot
 from flask import Flask, request
 
-from config import token, heroku_webhook, welcome_message, HOST, PORT
-import spotify
-import ya_music
-import apple_music
+from config import token, heroku_webhook, default_messages, HOST, PORT
+from service import ServiceBuilder
 
 bot = telebot.TeleBot(token)
 bot.stop_polling()
@@ -17,7 +15,7 @@ sessionContext = {}
 
 @bot.message_handler(commands=["start"])
 def handle_start(message):
-    bot.send_message(message.from_user.id, welcome_message)
+    bot.send_message(message.from_user.id, default_messages["welcome"])
 
 
 @bot.message_handler(content_types=["text"])
@@ -28,25 +26,17 @@ def handle_intent(message):
 
 def process_command(message):
     music_url = message.text
-    another_link = """I don't understand this. I only support the following services (song links only for now):
-    - Spotify
-    - Я.Музыка (Yandex Music)
-    """
+    links = []
 
     try:
-        if ya_music.is_ya_music(music_url):
-            full_name = ya_music.get_full_track_name(music_url)
-            another_link = spotify.find_link(full_name)
-        elif spotify.is_spotify(music_url):
-            full_name = spotify.get_full_track_name(music_url)
-            another_link = ya_music.find_link(full_name)
-        elif apple_music.is_apple_music(music_url):
-            full_name = apple_music.get_full_track_name(music_url)
-            another_link = ya_music.find_link(full_name)
+        links = ServiceBuilder(music_url).build_links()
     except Exception as e:
         print(f"error was here {music_url}\nException is {e}")
     finally:
-        bot.send_message(message.from_user.id, another_link)
+        if len(links):
+            bot.send_message(message.from_user.id, "\n".join(links))
+        else:
+            bot.send_message(message.from_user.id, default_messages["unknown_link"])
 
 
 @server.route("/bot", methods=["POST"])
