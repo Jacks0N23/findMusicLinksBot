@@ -19,3 +19,4 @@ spotipy==2.12.0
 urllib3==1.25.7
 werkzeug==1.0.1
 yandex-music==0.1.2
+apple-music-python==1.0.3

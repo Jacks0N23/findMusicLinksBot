@@ -5,6 +5,7 @@ from flask import Flask, request
 from config import token, heroku_webhook, welcome_message, HOST, PORT
 import spotify
 import ya_music
+import apple_music
 
 bot = telebot.TeleBot(token)
 bot.stop_polling()
@@ -38,6 +39,9 @@ def process_command(message):
             another_link = spotify.find_link(full_name)
         elif spotify.is_spotify(music_url):
             full_name = spotify.get_full_track_name(music_url)
+            another_link = ya_music.find_link(full_name)
+        elif apple_music.is_apple_music(music_url):
+            full_name = apple_music.get_full_track_name(music_url)
             another_link = ya_music.find_link(full_name)
     except Exception as e:
         print(f"error was here {music_url}\nException is {e}")
