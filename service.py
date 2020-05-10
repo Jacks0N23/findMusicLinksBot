@@ -25,15 +25,15 @@ class ServiceBuilder:
     def build_links(self):
         name = ""
         links = []
-        if ServiceFactory.__is_spotify(self.__parsed_url):
+        if ServiceBuilder.__is_spotify(self.__parsed_url):
             self.service = Spotify(self.url)
             name = self.service.get_full_track_name()
             links = [YaMusic.find_link(name), Youtube.find_link(name)]
-        elif ServiceFactory.__is_yandex_music(self.__parsed_url):
+        elif ServiceBuilder.__is_yandex_music(self.__parsed_url):
             self.service = YaMusic(self.url)
             name = self.service.get_full_track_name()
             links = [Spotify.find_link(name), Youtube.find_link(name)]
-        elif ServiceFactory.__is_youtube(self.__parsed_url):
+        elif ServiceBuilder.__is_youtube(self.__parsed_url):
             self.service = Youtube(self.url)
             name = self.service.get_full_track_name()
             links = [YaMusic.find_link(name), Spotify.find_link(name)]
@@ -125,8 +125,8 @@ class YaMusic(Service):
 
 class Youtube(Service):
     youtube = build(
-        os.getenv("YOUTUBE_API_SERVICE_NAME"),
-        os.getenv("YOUTUBE_API_VERSION"),
+        "youtube",
+        "v3",
         developerKey=os.getenv("YOUTUBE_API_KEY"),
     )
 
@@ -171,10 +171,10 @@ class Youtube(Service):
         return None
 
     def get_id(self):
-        if ServiceFactory.__is_full_url():
+        if ServiceBuilder.__is_full_url():
             params = parse_qs(self.parsed_url.query)
             return params["v"][0]
-        elif ServiceFactory.__is_short_url():
+        elif ServiceBuilder.__is_short_url():
             return self.parsed_url.path.replace("/", "")
 
 
