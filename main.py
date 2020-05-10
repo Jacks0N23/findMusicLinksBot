@@ -5,7 +5,7 @@ from flask import Flask, request
 from config import token, heroku_webhook, default_messages, HOST, PORT
 import spotify
 import ya_music
-import youtube
+import apple_music
 from service import ServiceBuilder
 
 bot = telebot.TeleBot(token)
