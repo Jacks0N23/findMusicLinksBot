@@ -26,7 +26,6 @@ def handle_intent(message):
 
 def process_command(message):
     music_url = message.text
-    unknown_link = default_messages["unknown_link"]
     links = []
 
     try:
@@ -37,7 +36,7 @@ def process_command(message):
         if len(links):
             bot.send_message(message.from_user.id, "\n".join(links))
         else:
-            bot.send_message(message.from_user.id, unknown_link)
+            bot.send_message(message.from_user.id, default_messages["unknown_link"])
 
 
 @server.route("/bot", methods=["POST"])
