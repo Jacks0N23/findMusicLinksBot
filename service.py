@@ -147,8 +147,7 @@ class Youtube(Service):
         found_video = list(filter(lambda x: x["id"] == video_id, results))
         if len(found_video):
             video = found_video[0]
-            artist, name = video["snippet"]["title"].split("-")
-            return f"{artist.strip()} - {name.strip()}"
+            return video["snippet"]["title"]
 
         return None
 
