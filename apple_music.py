@@ -56,4 +56,4 @@ def is_apple_music(am_url):
 # find_link("Marselle - На букву М")
 # parse_full_name("1483756855")
 # parse_track_id("https://music.apple.com/ru/album/%D0%BD%D0%B0-%D0%B1%D1%83%D0%BA%D0%B2%D1%83-%D0%BC/1483756838?i=1483756855")
-# get_full_track_name("https://music.apple.com/ru/album/%D0%BD%D0%B0-%D0%B1%D1%83%D0%BA%D0%B2%D1%83-%D0%BC/1483756838?i=1483756855")
+# get_full_track_name("https://music.apple.com/ru/album/%D0%B7%D0%B0%D0%B1%D0%B0%D1%81%D1%82%D0%BE%D0%B2%D0%BA%D0%B0-%D1%81%D0%BE%D0%BB%D0%BD%D1%86%D0%B0/1495081951?i=1495081955")

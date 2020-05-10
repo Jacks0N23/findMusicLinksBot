@@ -44,6 +44,7 @@ class ServiceBuilder:
                 Spotify.find_link(name),
                 Youtube.find_link(name),
             ]
+            links = list(filter(None, links))
         else:
             raise Exception(f"Unknown service: {self.url}")
 
@@ -97,12 +98,16 @@ class YaMusic(Service):
 
     def find_link(full_name):
         search = YaMusic.client.search(full_name, playlist_in_best=False)
-        best_track_id = search.best.result.track_id.split(":")
-        link = (
-            f"https://music.yandex.ru/album/{best_track_id[1]}/track/{best_track_id[0]}"
-        )
-        # print(json.dumps(search.to_dict(), indent=4))
-        # print(link)
+        link = None
+        try:
+            best_track_id = search.best.result.track_id.split(":")
+            link = (
+                f"https://music.yandex.ru/album/{best_track_id[1]}/track/{best_track_id[0]}"
+            )
+            print(link)
+        except Exception as e:
+            print("link not found\n", e)
+        print(json.dumps(search.to_dict(), indent=4))
         return link
 
     def get_full_track_name(self):
@@ -138,9 +143,9 @@ class Youtube(Service):
 
         results = (
             Youtube.youtube.videos()
-            .list(part="snippet", id=video_id)
-            .execute()
-            .get("items", [])
+                .list(part="snippet", id=video_id)
+                .execute()
+                .get("items", [])
         )
 
         # get the first result (should be the only one anyway)
@@ -154,11 +159,12 @@ class Youtube(Service):
     def find_link(full_name):
         search_result = (
             Youtube.youtube.search()
-            .list(q=full_name, maxResults=1, part="snippet")
-            .execute()
-            .get("items", [])
+                .list(q=full_name, maxResults=1, part="snippet")
+                .execute()
+                .get("items", [])
         )
-
+        print("_________________")
+        print(search_result)
         video_results = list(
             filter(lambda x: x["id"]["kind"] == "youtube#video", search_result)
         )
@@ -198,9 +204,14 @@ class Spotify(Service):
 
     def find_link(full_name):
         search = Spotify.sp.search(full_name, 1)
-        link = search["tracks"]["items"][0]["external_urls"]["spotify"]
-        # print(json.dumps(search, sort_keys=True, indent=4))
-        print(link)
+        link = None
+        try:
+            link = search["tracks"]["items"][0]["external_urls"]["spotify"]
+            print(link)
+        except Exception as e:
+            print("link not found\n", e)
+        print(json.dumps(search, sort_keys=True, indent=4))
+
         return link
 
     def get_id(self):
@@ -211,3 +222,24 @@ class Spotify(Service):
 class AppleMusic(Service):
     def find_link(self):
         return NotImplemented
+
+
+def process_command(message):
+    music_url = message
+    links = []
+
+    try:
+        links = ServiceBuilder(music_url).build_links()
+    except Exception as e:
+        print(f"error was here {music_url}\nException is {e}")
+    finally:
+        print("error")
+        print(links)
+        # if len(links):
+        #     bot.send_message(message.from_user.id, "\n".join(links))
+        # else:
+        #     bot.send_message(message.from_user.id, default_messages["unknown_link"])
+
+
+process_command(
+    "https://music.apple.com/ru/album/%D0%B7%D0%B0%D0%B1%D0%B0%D1%81%D1%82%D0%BE%D0%B2%D0%BA%D0%B0-%D1%81%D0%BE%D0%BB%D0%BD%D1%86%D0%B0/1495081951?i=1495081955")
