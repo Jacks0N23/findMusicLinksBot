@@ -31,6 +31,17 @@ $ pipenv run bot
 - Twitter: [@JACKS0N23](https://twitter.com/JACKS0N23)
 - Github: [@Jacks0N23](https://github.com/Jacks0N23)
 
+## Inspired by 
+
+👤 **Artem Golovin**
+
+- Twitter: [@awaveawave](https://twitter.com/awaveawave)
+- Github: [@awave1](https://github.com/awave1)
+
+## Contributors:
+
+feel free to add yourself if you contributed
+
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Jacks0N23/findMusicLinksBot/issues).
