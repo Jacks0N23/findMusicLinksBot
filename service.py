@@ -5,6 +5,7 @@ from utils import list_to_dict
 from urllib import parse
 from abc import abstractmethod
 from urllib.parse import parse_qs, urlparse
+import apple_music
 
 import spotipy
 from yandex_music.client import Client as YaClient
@@ -36,6 +37,13 @@ class ServiceBuilder:
             self.service = Youtube(self.url)
             name = self.service.get_full_track_name()
             links = [YaMusic.find_link(name), Spotify.find_link(name)]
+        elif apple_music.is_apple_music(self.url):
+            name = apple_music.get_full_track_name(self.url)
+            links = [
+                YaMusic.find_link(name),
+                Spotify.find_link(name),
+                Youtube.find_link(name),
+            ]
         else:
             raise Exception(f"Unknown service: {self.url}")
 

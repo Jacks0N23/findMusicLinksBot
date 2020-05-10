@@ -31,7 +31,7 @@ MarkupSafe = "==1.1.1"
 PySocks = "==1.7.1"
 pyTelegramBotAPI = "==3.7.1"
 Werkzeug = "==1.0.1"
-google-api-python-client = "*"
+google-api-python-client = "==1.8.2"
 
 [requires]
 python_version = "3.8"
