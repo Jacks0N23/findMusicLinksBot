@@ -3,13 +3,15 @@ import telebot
 from flask import Flask, request
 
 from config import token, heroku_webhook, default_messages, HOST, PORT
-from service import ServiceBuilder
+from music_services.service import build_links
 
 bot = telebot.TeleBot(token)
 bot.stop_polling()
 
 server = Flask(__name__)
 
+# need to use session content to prevent sending links to wrong user
+# too lazy to do in now
 sessionContext = {}
 
 
@@ -19,7 +21,7 @@ def handle_start(message):
 
 
 @bot.message_handler(content_types=["text"])
-def handle_intent(message):
+def handle_message(message):
     print(f"text handler {message}")
     process_command(message)
 
@@ -29,11 +31,11 @@ def process_command(message):
     links = []
 
     try:
-        links = ServiceBuilder(music_url).build_links()
+        links = build_links(music_url)
     except Exception as e:
         print(f"error was here {music_url}\nException is {e}")
     finally:
-        if len(links):
+        if len(links) > 0:
             bot.send_message(message.from_user.id, "\n".join(links))
         else:
             bot.send_message(message.from_user.id, default_messages["unknown_link"])
